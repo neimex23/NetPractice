@@ -50,7 +50,7 @@ namespace NetPractice.Controllers
             }
 
             Confederacion confederacion = null;// DataStore.Confederaciones.FirstOrDefault(c => c.Id == pais.Id);
-            Deporte deporte = DataStore.Deportes.FirstOrDefault(d => d.Id == pais.DeporteId);
+            Deporte deporte = null; //DataStore.Deportes.FirstOrDefault(d => d.Id == pais.DeporteId);
 
             if (confederacion == null || deporte == null)
             {
@@ -97,8 +97,8 @@ namespace NetPractice.Controllers
             //existing.Confederacion = DataStore.Confederaciones
                 //.FirstOrDefault(c => c.Id == pais.ConfederacionId);
 
-            existing.Deporte = DataStore.Deportes
-                .FirstOrDefault(d => d.Id == pais.DeporteId);
+            //existing.Deporte = DataStore.Deportes
+                //.FirstOrDefault(d => d.Id == pais.DeporteId);
 
             return RedirectToAction(nameof(Index));
         }

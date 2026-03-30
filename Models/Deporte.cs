@@ -2,9 +2,12 @@
 {
     public class Deporte
     {
-        public int Id { get; private set; }
+        public string Id { get; set; }
 
-        public void setID(int id) { Id = id; }
+        public Deporte()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         public string Nombre { get; set; }
     }
