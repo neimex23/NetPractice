@@ -1,0 +1,41 @@
+﻿@model Pais
+
+<h2>Crear País</h2>
+
+<form asp-action="Create" method="post">
+
+    <div>
+        <label>Nombre</label>
+        <input asp-for="Nombre" />
+    </div>
+
+    <div>
+        <label>Fecha Fundación</label>
+        <input asp-for="FechaFundacion" type="date" />
+    </div>
+
+    <div>
+        <label>Confederación</label>
+        <select asp-for="ConfederacionId">
+            <option value="">-- Seleccionar --</option>
+            @foreach (var c in ViewBag.Confederaciones)
+            {
+                <option value="@c.Id">@c.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Deporte</label>
+        <select asp-for="DeporteId">
+            <option value="">-- Seleccionar --</option>
+            @foreach (var d in ViewBag.Deportes)
+            {
+                <option value="@d.Id">@d.Nombre</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit">Crear</button>
+
+</form>
