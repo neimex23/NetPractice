@@ -2,17 +2,21 @@
 {
     public class Pais
     {
-        public int Id { get; private set; }
+        public string Id { get; private set; }
 
-        public void setID(int id) { Id = id; }
+        public Pais()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
 
         public string Nombre { get; set; }
         public DateTime FechaFundacion { get; set; }
 
-        public int ConfederacionId { get; set; }
+        public string ConfederacionId { get; set; }
+
         public Confederacion Confederacion { get; set; }
 
-        public int DeporteId { get; set; }
+        public string DeporteId { get; set; }
         public Deporte Deporte { get; set; }
     }
 }
