@@ -7,7 +7,14 @@ namespace NetPractice.Controllers
 {
     public class DeporteController : Controller
     {
-        public IActionResult Manage() => View(DataStore.Deportes);
+        private readonly IDeporteRepository _depRepo;
+
+        public DeporteController(IDeporteRepository depRepo)
+        {
+            _depRepo = depRepo;
+        }
+
+        public IActionResult Manage() => View(_depRepo.GetAll()); //View(DataStore.Deportes);
 
         public IActionResult Create() => View();
 
@@ -16,15 +23,41 @@ namespace NetPractice.Controllers
         {
             if (ModelState.IsValid)
             {
-                DataStore.Deportes.Add(d);
+                //DataStore.Deportes.Add(d);
+                _depRepo.Add(d);
                 return RedirectToAction("Manage");
             }
             return View(d);
         }
 
+        public IActionResult Find(string search)
+        {
+            //var deportes = DataStore.Deportes;
+            /*if (!string.IsNullOrEmpty(search))
+            {
+                deportes = deportes
+                    .Where(p => p.Nombre.Contains(search, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }*/
+
+            //return View(deportes);
+
+            var deportes = _depRepo.Search(search);
+            if (deportes == null || !deportes.Any())
+            {
+                ViewBag.Message = "No se encontraron deportes que coincidan con la búsqueda.";
+                return View("Manage", new List<Deporte>());
+            }
+
+            return View("Manage", deportes);
+        }
+
+
         public IActionResult Edit(string Id)
         {
-            var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == Id);
+            //var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == Id);
+
+            var existente = _depRepo.GetById(Id);
 
             if (existente == null)
                 return NotFound();
@@ -37,12 +70,14 @@ namespace NetPractice.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == depo.Id);
+                /*var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == depo.Id);
 
                 if (existente == null)
                     return NotFound();
 
-                existente.Nombre = depo.Nombre;
+                existente.Nombre = depo.Nombre;*/
+
+                _depRepo.Update(depo);
 
                 return RedirectToAction("Manage");
             }
@@ -52,12 +87,14 @@ namespace NetPractice.Controllers
 
         public IActionResult Delete(string Id)
         {
-            var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == Id);
+            /*var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == Id);
 
             if (existente == null)
                 return NotFound();
 
-            DataStore.Deportes.Remove(existente);
+            DataStore.Deportes.Remove(existente);*/
+
+            _depRepo.Delete(Id);
 
             return RedirectToAction("Manage");
         }

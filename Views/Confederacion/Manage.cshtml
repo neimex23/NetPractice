@@ -9,6 +9,28 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="Find" method="get" class="mb-3">
+    <div style="display:flex; gap:10px;">
+        <input type="text" name="search" class="form-control" placeholder="Buscar país..." />
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a asp-action="Manage" class="btn btn-secondary">Limpiar</a>
+    </div>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Message
+    </div>
+}
+else if (Model != null && Model.Any())
+{
+    <div class="alert alert-success">
+        Resultados encontrados: @Model.Count()
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>
