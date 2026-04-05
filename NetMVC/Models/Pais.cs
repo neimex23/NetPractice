@@ -14,16 +14,11 @@ namespace NetPractice.Models
         public string Nombre { get; set; }
         public DateTime FechaFundacion { get; set; }
 
-        public Deporte Deporte { get; set; }
-        public Confederacion Confederacion { get; set; }
-
-
-        //Usados para ejercicio 1 donde MVC se comporta raramente con los objetos relacionados,
-        //no se pueden usar directamente los objetos relacionados, se deben usar sus Id's
-        [NotMapped]
         public string DeporteId { get; set; }
+        public Deporte Deporte { get; set; }
 
-        [NotMapped]
         public string ConfederacionId { get; set; }
+        public Confederacion Confederacion { get; set; }
+       
     }
 }

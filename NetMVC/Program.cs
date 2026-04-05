@@ -8,7 +8,9 @@ builder.Services.AddControllersWithViews();
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer("Server=localhost;Database=NetPractice;Trusted_Connection=True;TrustServerCertificate=true;"));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 
 builder.Services.AddScoped<IPaisRepository, PaisRepository>();
 builder.Services.AddScoped<IConfederacionRepository, ConfederacionRepository>();
