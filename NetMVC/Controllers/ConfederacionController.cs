@@ -7,14 +7,8 @@ namespace NetPractice.Controllers
 {
     public class ConfederacionController : Controller
     {
-        private readonly IConfederacionRepository _confRepo;
 
-        public ConfederacionController(IConfederacionRepository confRepo)
-        {
-            _confRepo = confRepo;
-        }
-
-        public IActionResult Manage() => View(_confRepo.GetAll()); //View(DataStore.Confederaciones);
+        public IActionResult Manage() => View(DataStore.Confederaciones);
 
         public IActionResult Create() => View();
 
@@ -23,9 +17,7 @@ namespace NetPractice.Controllers
         {
             if (ModelState.IsValid)
             {
-                //DataStore.Confederaciones.Add(c);
-                _confRepo.Add(c);
-
+                DataStore.Confederaciones.Add(c);
                 return RedirectToAction("Manage");
             }
             return View(c);
@@ -33,9 +25,7 @@ namespace NetPractice.Controllers
 
         public IActionResult Edit(string Id)
         {
-            //var existente = DataStore.Confederaciones.FirstOrDefault(x => x.Id == Id);
-
-            var existente = _confRepo.GetById(Id); 
+            var existente = DataStore.Confederaciones.FirstOrDefault(x => x.Id == Id);
 
             if (existente == null)
                 return NotFound();
@@ -48,14 +38,12 @@ namespace NetPractice.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var existente = DataStore.Confederaciones.FirstOrDefault(x => x.Id == conf.Id);
+                var existente = DataStore.Confederaciones.FirstOrDefault(x => x.Id == conf.Id);
 
-                //if (existente == null)
-                   //return NotFound();
+                if (existente == null)
+                   return NotFound();
 
-                //existente.Nombre = conf.Nombre;
-
-                _confRepo.Update(conf);
+                existente.Nombre = conf.Nombre;
 
                 return RedirectToAction("Manage");
             }
@@ -65,14 +53,12 @@ namespace NetPractice.Controllers
 
         public IActionResult Delete(string Id)
         {
-            /*var existente = DataStore.Confederaciones.FirstOrDefault(x => x.Id == Id);
+            var existente = DataStore.Confederaciones.FirstOrDefault(x => x.Id == Id);
 
             if (existente == null)
                 return NotFound();
 
-            DataStore.Confederaciones.Remove(existente);*/
-
-            _confRepo.Delete(Id);
+            DataStore.Confederaciones.Remove(existente);
 
             return RedirectToAction("Manage");
         }
@@ -81,17 +67,14 @@ namespace NetPractice.Controllers
         [HttpGet]
         public IActionResult Find(string search)
         {
-            //var paises = DataStore.Paises;
-            /*if (!string.IsNullOrEmpty(search))
+            var confs = DataStore.Confederaciones;
+            if (!string.IsNullOrEmpty(search))
             {
-                paises = paises
+                confs = confs
                     .Where(p => p.Nombre.Contains(search, StringComparison.OrdinalIgnoreCase))
                     .ToList();
-            }*/
+            }
 
-            //return View(paises);
-
-            var confs = _confRepo.Search(search);
             if (confs == null || !confs.Any())
             {
                 ViewBag.Message = "No se encontraron confederaciones que coincidan con la búsqueda.";

@@ -1,18 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using NetPractice.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer("Server=localhost;Database=NetPractice;Trusted_Connection=True;TrustServerCertificate=true;"));
-
-builder.Services.AddScoped<IPaisRepository, PaisRepository>();
-builder.Services.AddScoped<IConfederacionRepository, ConfederacionRepository>();
-builder.Services.AddScoped<IDeporteRepository, DeporteRepository>();
 
 var app = builder.Build();
 

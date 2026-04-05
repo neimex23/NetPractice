@@ -27,7 +27,22 @@ Incluye funcionalidades CRUD completas, búsquedas y persistencia de datos utili
 * Swagger (para API)
 
 ---
+##  Branch: ejercicio1
 
+Objetivo: El objetivo de este ejercicio es poder comenzar con la utilización de la plataforma .NET en tareas de desarrollo e implementación.
+Utilizando la plataforma .NET, se desea implementar un prototipo que permita administrar los países junto a la confederación y el deporte. Son 3 entidades distintas relacionadas, y los atributos a definir son parte del problema, tomando en cuenta de utilizar al menos 3 tipos distintos (numérico, fecha, string, etc.). Se deben agregar las restricciones SQL correspondientes
+
+Desarrollar una aplicación ASP.NET Core MVC siguiendo los siguientes lineamientos:
+Capa de presentación: debe brindar las funcionalidades CRUD de las entidades, así como también al menos una funcionalidad de búsqueda por un atributo de texto de alguna de ellas. Las vistas deben implementarse utilizando Razor 
+Capa de negocios: debe brindar al menos las mismas funcionalidades que la capa de presentación, así como también realizar las validaciones necesarias. Debe controlarse que se cumpla al menos una regla de negocio al momento de agregar, modificar o borrar una entidad, la cual dependerá de la entidad elegida. Importante: la capa de negocios es parte del modelo en una arquitectura MVC. 
+Capa de acceso a datos: esta capa debe proveer las funcionalidades necesarias para el mantenimiento de los datos por parte de las capas superiores (de momento la capa de negocios). A esta altura del trabajo práctico solamente se mantendrán datos en memoria.
+Notas:
+Los datos deben paginarse desde el servidor
+Pueden consultarse y definir cosas en conjunto con sus compañeros de grupo, pero el desarrollo es individual.
+Debe utilizarse, en todos los casos, C# como lenguaje de desarrollo.
+
+
+---
 ## 🧩 Arquitectura
 
 El proyecto sigue el patrón MVC:
@@ -63,53 +78,15 @@ El proyecto sigue el patrón MVC:
 
 ## 🗄️ Base de Datos
 
-* Motor: SQL Server
-* ORM: Entity Framework Core
-* Enfoque: Code First / Model First
-* Uso de Migrations
-
----
-
-## 🌐 API REST
-
-Se implementa una API con:
-
-* Métodos HTTP: GET, POST, PUT, DELETE
-* Códigos de estado HTTP correctos
-* Documentación con Swagger
-
----
-
-## 💻 Frontend (Ejercicio 4)
-
-* Framework JS (React / Vue / Angular)
-* Diseño responsive con Bootstrap o similar
-* Búsqueda full-text
-
----
-
-## 📱 Mobile (Ejercicio 5)
-
-Aplicación en .NET MAUI que:
-
-* Consume la API REST
-* Permite búsqueda
-* Muestra resultados en grilla
+✔ Integrada en Memoria
 
 ---
 
 ## 🚀 Cómo ejecutar
 
 1. Clonar el repositorio
-2. Configurar conexión a SQL Server en `appsettings.json`
 
-Ejecutar migraciones:
-
-```
-dotnet ef database update
-```
-
-Ejecutar la aplicación:
+2. Ejecutar la aplicación:
 
 ```
 dotnet run
