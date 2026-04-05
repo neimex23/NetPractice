@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NetPractice.Migrations
+namespace NetMVC.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -42,35 +42,35 @@ namespace NetPractice.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaFundacion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ConfederacionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DeporteId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    DeporteId1 = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ConfederacionId1 = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Paises", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Paises_Confederaciones_ConfederacionId",
-                        column: x => x.ConfederacionId,
+                        name: "FK_Paises_Confederaciones_ConfederacionId1",
+                        column: x => x.ConfederacionId1,
                         principalTable: "Confederaciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Paises_Deportes_DeporteId",
-                        column: x => x.DeporteId,
+                        name: "FK_Paises_Deportes_DeporteId1",
+                        column: x => x.DeporteId1,
                         principalTable: "Deportes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Paises_ConfederacionId",
+                name: "IX_Paises_ConfederacionId1",
                 table: "Paises",
-                column: "ConfederacionId");
+                column: "ConfederacionId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Paises_DeporteId",
+                name: "IX_Paises_DeporteId1",
                 table: "Paises",
-                column: "DeporteId");
+                column: "DeporteId1");
         }
 
         /// <inheritdoc />

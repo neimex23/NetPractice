@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NetPractice.Data;
+using NetWebApi.Data;
 
 #nullable disable
 
-namespace NetPractice.Migrations
+namespace NetWebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260403170534_InitialCreate")]
-    partial class InitialCreate
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace NetPractice.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NetPractice.Models.Confederacion", b =>
+            modelBuilder.Entity("NetWebApi.Models.Confederacion", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -39,7 +36,7 @@ namespace NetPractice.Migrations
                     b.ToTable("Confederaciones");
                 });
 
-            modelBuilder.Entity("NetPractice.Models.Deporte", b =>
+            modelBuilder.Entity("NetWebApi.Models.Deporte", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -53,7 +50,7 @@ namespace NetPractice.Migrations
                     b.ToTable("Deportes");
                 });
 
-            modelBuilder.Entity("NetPractice.Models.Pais", b =>
+            modelBuilder.Entity("NetWebApi.Models.Pais", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -82,15 +79,15 @@ namespace NetPractice.Migrations
                     b.ToTable("Paises");
                 });
 
-            modelBuilder.Entity("NetPractice.Models.Pais", b =>
+            modelBuilder.Entity("NetWebApi.Models.Pais", b =>
                 {
-                    b.HasOne("NetPractice.Models.Confederacion", "Confederacion")
+                    b.HasOne("NetWebApi.Models.Confederacion", "Confederacion")
                         .WithMany()
                         .HasForeignKey("ConfederacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NetPractice.Models.Deporte", "Deporte")
+                    b.HasOne("NetWebApi.Models.Deporte", "Deporte")
                         .WithMany()
                         .HasForeignKey("DeporteId")
                         .OnDelete(DeleteBehavior.Cascade)

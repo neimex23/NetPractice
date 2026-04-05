@@ -1,4 +1,4 @@
-﻿namespace NetPractice.Models
+﻿namespace NetWebApi.Models
 {
     public class Pais
     {
@@ -12,11 +12,8 @@
         public string Nombre { get; set; }
         public DateTime FechaFundacion { get; set; }
 
-        public string ConfederacionId { get; set; }
-
         public Confederacion Confederacion { get; set; }
 
-        public string DeporteId { get; set; }
         public Deporte Deporte { get; set; }
     }
 }

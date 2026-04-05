@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetPractice.Data;
 
 #nullable disable
 
-namespace NetPractice.Migrations
+namespace NetMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260405174043_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,11 +58,11 @@ namespace NetPractice.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ConfederacionId")
+                    b.Property<string>("ConfederacionId1")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DeporteId")
+                    b.Property<string>("DeporteId1")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -72,9 +75,9 @@ namespace NetPractice.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfederacionId");
+                    b.HasIndex("ConfederacionId1");
 
-                    b.HasIndex("DeporteId");
+                    b.HasIndex("DeporteId1");
 
                     b.ToTable("Paises");
                 });
@@ -83,13 +86,13 @@ namespace NetPractice.Migrations
                 {
                     b.HasOne("NetPractice.Models.Confederacion", "Confederacion")
                         .WithMany()
-                        .HasForeignKey("ConfederacionId")
+                        .HasForeignKey("ConfederacionId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("NetPractice.Models.Deporte", "Deporte")
                         .WithMany()
-                        .HasForeignKey("DeporteId")
+                        .HasForeignKey("DeporteId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
