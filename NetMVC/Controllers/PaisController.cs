@@ -29,16 +29,6 @@ namespace NetPractice.Controllers
 
         public IActionResult Find(string search)
         {
-            //var paises = DataStore.Paises;
-            /*if (!string.IsNullOrEmpty(search))
-            {
-                paises = paises
-                    .Where(p => p.Nombre.Contains(search, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }*/
-
-            //return View(paises);
-
             var paises = _paisRepo.Search(search);
 
             if (paises == null || !paises.Any())
@@ -50,12 +40,8 @@ namespace NetPractice.Controllers
             return View("Manage", paises);
         }
 
-        // GET: Pais/Create
         public IActionResult Create()
         {
-            //ViewBag.Confederaciones = DataStore.Confederaciones;
-            //ViewBag.Deportes = DataStore.Deportes;
-
             ViewBag.Confederaciones = _confRepo.GetAll();
             ViewBag.Deportes = _depRepo.GetAll();
 
@@ -65,9 +51,6 @@ namespace NetPractice.Controllers
         [HttpPost]
         public IActionResult Create(Pais model)
         {
-            //model.Confederacion = DataStore.Confederaciones.FirstOrDefault(x => x.Id == model.ConfederacionId);
-            //model.Deporte = DataStore.Deportes.FirstOrDefault(x => x.Id == model.DeporteId);
-            //DataStore.Paises.Add(model);
             _paisRepo.Add(model);
 
             return RedirectToAction("Manage");
@@ -75,10 +58,6 @@ namespace NetPractice.Controllers
 
         public IActionResult Edit(string Id)
         {
-            //var existente = DataStore.Paises.FirstOrDefault(x => x.Id == Id);
-            //ViewBag.Confederaciones = DataStore.Confederaciones;
-            //ViewBag.Deportes = DataStore.Deportes;
-
             var existente = _paisRepo.GetById(Id);
 
             if (existente == null)
@@ -92,7 +71,6 @@ namespace NetPractice.Controllers
         [HttpPost]
         public IActionResult Edit(string id,Pais pais)
         {
-            //var existente = DataStore.Paises.FirstOrDefault(x => x.Id == id);
             var existente = _paisRepo.GetById(id);
 
             if (existente == null)
@@ -107,12 +85,6 @@ namespace NetPractice.Controllers
             existente.Confederacion = _confRepo.GetById(pais.ConfederacionId);
             existente.Deporte = _depRepo.GetById(pais.DeporteId);
 
-            //existente.Confederacion = DataStore.Confederaciones
-            //.FirstOrDefault(x => x.Id == pais.ConfederacionId);
-
-            //existente.Deporte = DataStore.Deportes
-                //.FirstOrDefault(x => x.Id == pais.DeporteId);
-
             _paisRepo.Update(existente);
 
             return RedirectToAction("Manage");
@@ -120,11 +92,6 @@ namespace NetPractice.Controllers
 
         public IActionResult Delete(string Id)
         {
-            //var existente = DataStore.Paises.FirstOrDefault(x => x.Id == Id)
-            //if (existente == null)
-                //return NotFound();
-
-            //DataStore.Paises.Remove(existente);
             _paisRepo.Delete(Id);
 
             return RedirectToAction("Manage");

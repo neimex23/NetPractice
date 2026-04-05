@@ -17,7 +17,7 @@ namespace NetMVC.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.14")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -55,11 +55,11 @@ namespace NetMVC.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ConfederacionId1")
+                    b.Property<string>("ConfederacionId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DeporteId1")
+                    b.Property<string>("DeporteId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -72,9 +72,9 @@ namespace NetMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfederacionId1");
+                    b.HasIndex("ConfederacionId");
 
-                    b.HasIndex("DeporteId1");
+                    b.HasIndex("DeporteId");
 
                     b.ToTable("Paises");
                 });
@@ -83,13 +83,13 @@ namespace NetMVC.Migrations
                 {
                     b.HasOne("NetPractice.Models.Confederacion", "Confederacion")
                         .WithMany()
-                        .HasForeignKey("ConfederacionId1")
+                        .HasForeignKey("ConfederacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("NetPractice.Models.Deporte", "Deporte")
                         .WithMany()
-                        .HasForeignKey("DeporteId1")
+                        .HasForeignKey("DeporteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -14,7 +14,7 @@ namespace NetPractice.Controllers
             _depRepo = depRepo;
         }
 
-        public IActionResult Manage() => View(_depRepo.GetAll()); //View(DataStore.Deportes);
+        public IActionResult Manage() => View(_depRepo.GetAll());
 
         public IActionResult Create() => View();
 
@@ -23,7 +23,6 @@ namespace NetPractice.Controllers
         {
             if (ModelState.IsValid)
             {
-                //DataStore.Deportes.Add(d);
                 _depRepo.Add(d);
                 return RedirectToAction("Manage");
             }
@@ -32,16 +31,6 @@ namespace NetPractice.Controllers
 
         public IActionResult Find(string search)
         {
-            //var deportes = DataStore.Deportes;
-            /*if (!string.IsNullOrEmpty(search))
-            {
-                deportes = deportes
-                    .Where(p => p.Nombre.Contains(search, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }*/
-
-            //return View(deportes);
-
             var deportes = _depRepo.Search(search);
             if (deportes == null || !deportes.Any())
             {
@@ -55,8 +44,6 @@ namespace NetPractice.Controllers
 
         public IActionResult Edit(string Id)
         {
-            //var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == Id);
-
             var existente = _depRepo.GetById(Id);
 
             if (existente == null)
@@ -70,13 +57,6 @@ namespace NetPractice.Controllers
         {
             if (ModelState.IsValid)
             {
-                /*var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == depo.Id);
-
-                if (existente == null)
-                    return NotFound();
-
-                existente.Nombre = depo.Nombre;*/
-
                 _depRepo.Update(depo);
 
                 return RedirectToAction("Manage");
@@ -87,13 +67,6 @@ namespace NetPractice.Controllers
 
         public IActionResult Delete(string Id)
         {
-            /*var existente = DataStore.Deportes.FirstOrDefault(x => x.Id == Id);
-
-            if (existente == null)
-                return NotFound();
-
-            DataStore.Deportes.Remove(existente);*/
-
             _depRepo.Delete(Id);
 
             return RedirectToAction("Manage");
