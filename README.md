@@ -27,6 +27,15 @@ Incluye funcionalidades CRUD completas, búsquedas y persistencia de datos utili
 * Swagger (para API)
 
 ---
+##  Branch: ejercicio2
+
+Objetivo: Familiarizarse con el acceso a una base de datos (SQL Server en este caso) utilizando la plataforma .NET.
+En este ejercicio se debe sustituir la capa de acceso a datos del Ejercicio 1, de forma tal que se puedan persistir y recuperar datos hacia y desde un SQL Server (instalado localmente).
+Para esto, se debe reutilizar lo ya implementado de forma tal de utilizar el enfoque Model First, utilizando Entity Framework Core . En particular es importante la utilización de Entity Framework Migrations , que seguramente les va a servir de mucha ayuda en caso de seguir el enfoque Model First en el laboratorio. 
+Se debe utilizar asimismo LINQ  para la implementación de los distintos accesos o consultas a la base de datos.
+
+
+---
 
 ## 🧩 Arquitectura
 
