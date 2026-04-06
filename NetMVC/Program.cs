@@ -1,5 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using NetPractice.Data;
+using NetPracticeCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,14 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
-
-builder.Services.AddScoped<IPaisRepository, PaisRepository>();
-builder.Services.AddScoped<IConfederacionRepository, ConfederacionRepository>();
-builder.Services.AddScoped<IDeporteRepository, DeporteRepository>();
+builder.Services.AddNetPracticeCore(builder.Configuration);
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-﻿namespace NetPractice.Models
+﻿namespace NetPracticeCore.Models
 {
     public class Confederacion
     {

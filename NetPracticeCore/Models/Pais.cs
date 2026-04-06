@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NetPractice.Models
+namespace NetPracticeCore.Models
 {
     public class Pais
     {

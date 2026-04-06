@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NetPractice.Models;
+using NetPracticeCore.Models;
 
-namespace NetPractice.Data
+namespace NetPracticeCore.Data
 {
     //<summary>
     // Interfaz para el repositorio de países, define los métodos para realizar operaciones CRUD y búsquedas.

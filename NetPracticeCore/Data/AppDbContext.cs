@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NetPractice.Models;
+using NetPracticeCore.Models;
 
-namespace NetPractice.Data
+namespace NetPracticeCore.Data
 {
     public class AppDbContext : DbContext
     {

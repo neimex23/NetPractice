@@ -1,6 +1,6 @@
-﻿using NetPractice.Models;
+﻿using NetPracticeCore.Models;
 
-namespace NetPractice.Data
+namespace NetPracticeCore.Data
 {
     public interface IDeporteRepository
     {

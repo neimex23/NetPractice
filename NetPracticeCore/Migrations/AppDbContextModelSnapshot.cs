@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NetPractice.Data;
+using NetPracticeCore.Data;
 
 #nullable disable
 
-namespace NetMVC.Migrations
+namespace NetPracticeCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace NetMVC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NetPractice.Models.Confederacion", b =>
+            modelBuilder.Entity("NetPracticeCore.Models.Confederacion", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -36,7 +36,7 @@ namespace NetMVC.Migrations
                     b.ToTable("Confederaciones");
                 });
 
-            modelBuilder.Entity("NetPractice.Models.Deporte", b =>
+            modelBuilder.Entity("NetPracticeCore.Models.Deporte", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -50,7 +50,7 @@ namespace NetMVC.Migrations
                     b.ToTable("Deportes");
                 });
 
-            modelBuilder.Entity("NetPractice.Models.Pais", b =>
+            modelBuilder.Entity("NetPracticeCore.Models.Pais", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -79,15 +79,15 @@ namespace NetMVC.Migrations
                     b.ToTable("Paises");
                 });
 
-            modelBuilder.Entity("NetPractice.Models.Pais", b =>
+            modelBuilder.Entity("NetPracticeCore.Models.Pais", b =>
                 {
-                    b.HasOne("NetPractice.Models.Confederacion", "Confederacion")
+                    b.HasOne("NetPracticeCore.Models.Confederacion", "Confederacion")
                         .WithMany()
                         .HasForeignKey("ConfederacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NetPractice.Models.Deporte", "Deporte")
+                    b.HasOne("NetPracticeCore.Models.Deporte", "Deporte")
                         .WithMany()
                         .HasForeignKey("DeporteId")
                         .OnDelete(DeleteBehavior.Cascade)

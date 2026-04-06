@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using NetPractice.Models;
+using NetPracticeCore.Data;
+using NetPracticeCore.Models;
 
-namespace NetPractice.Controllers
+namespace NetPracticeMVC.Controllers
 {
     public class HomeController : Controller
     {

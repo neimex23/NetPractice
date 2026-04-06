@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NetPractice.Data;
-using NetPractice.Models;
+using NetPracticeCore.Data;
+using NetPracticeCore.Models;
 
-namespace NetPractice.Controllers
+namespace NetPracticeMVC.Controllers
 {
     public class DeporteController : Controller
     {

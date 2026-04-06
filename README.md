@@ -52,16 +52,16 @@ El proyecto sigue el patrón MVC:
 
 ## ⚙️ Funcionalidades
 
-✔ CRUD completo para todas las entidades
-✔ Búsqueda por texto
-✔ Validaciones de negocio
-✔ Paginación de datos
-✔ Persistencia en base de datos
-✔ API REST (Ejercicio 3)
+�?CRUD completo para todas las entidades
+�?Búsqueda por texto
+�?Validaciones de negocio
+�?Paginación de datos
+�?Persistencia en base de datos
+�?API REST (Ejercicio 3)
 
 ---
 
-## 🗄️ Base de Datos
+## 🗄�?Base de Datos
 
 * Motor: SQL Server
 * ORM: Entity Framework Core
@@ -101,23 +101,21 @@ Aplicación en .NET MAUI que:
 ## 🚀 Cómo ejecutar
 
 1. Clonar el repositorio
-2. Configurar conexión a SQL Server en `appsettings.json`
+2. Configurar conexión a SQL Server en `appsettings.json` de MVC
 
 Ejecutar migraciones:
-
+```
+dotnet ef migrations add InitialCreate --project .\NetPracticeCore\NetPracticeCore.csproj --startup-project .\NetMVC\NetMVC.csproj
+```
 ```
 dotnet ef database update
 ```
 
 Ejecutar la aplicación:
 
-```
-dotnet run
-```
-
 ---
 
-## 👨‍💻 Autor
+## 👨‍�?Autor
 
 Ezequiel Medina
 Desarrollador .NET
