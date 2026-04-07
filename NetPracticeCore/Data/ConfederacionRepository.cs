@@ -1,15 +1,48 @@
-﻿using NetPracticeCore.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using NetPracticeCore.Models;
 
 namespace NetPracticeCore.Data
 {
+    //<summary>
+    // Repositorio para gestionar operaciones CRUD y búsquedas relacionadas con la entidad Confederación.
+    //</summary>
     public interface IConfederacionRepository
     {
-        List<Confederacion> GetAll();
-        Confederacion GetById(string id);
-        void Add(Confederacion conf);
-        void Update(Confederacion conf);
-        void Delete(string id);
-        List<Confederacion> Search(string texto);
+        //<summary>
+        // Obtiene todas las confederaciones.
+        //</summary>
+        // <returns>Lista de confederaciones</returns>
+        Task<List<Confederacion>> GetAll();
+
+        //<summary>
+        // Obtiene una confederación por su ID.
+        //</summary>
+        // <param name="id">ID de la confederación</param>
+        Task<Confederacion> GetById(string id);
+
+        //<summary>
+        // Agrega una nueva confederación.
+        //</summary>
+        // <param name="conf">Objeto confederación a agregar</param>
+        Task Add(Confederacion conf);
+
+        //<summary>
+        // Actualiza una confederación existente.
+        //</summary>
+        // <param name="conf">Objeto confederación con los datos actualizados</param
+        Task Update(Confederacion conf);
+
+        //<summary>
+        // Elimina una confederación por su ID.
+        //</summary>
+        // <param name="id">ID de la confederación a eliminar</param>
+        Task Delete(string id);
+
+        //<summary>
+        // Busca confederaciones por su nombre.
+        // </summary>
+        // <param name="texto">Texto a buscar en el nombre de la confederación
+        Task<List<Confederacion>> Search(string texto);
     }
 
     public class ConfederacionRepository : IConfederacionRepository
@@ -21,43 +54,43 @@ namespace NetPracticeCore.Data
             _context = context;
         }
 
-        public List<Confederacion> GetAll()
+        public async Task<List<Confederacion>> GetAll()
         {
-            return _context.Confederaciones.ToList();
+            return await _context.Confederaciones.ToListAsync();
         }
 
-        public Confederacion GetById(string id)
+        public async Task<Confederacion> GetById(string id)
         {
-            return _context.Confederaciones.Find(id);
+            return await _context.Confederaciones.FindAsync(id);
         }
 
-        public void Add(Confederacion conf)
+        public async Task Add(Confederacion conf)
         {
-            _context.Confederaciones.Add(conf);
-            _context.SaveChanges();
+            await _context.Confederaciones.AddAsync(conf);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Confederacion conf)
+        public async Task Update(Confederacion conf)
         {
             _context.Confederaciones.Update(conf);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
-            var conf = _context.Confederaciones.Find(id);
+            var conf = await _context.Confederaciones.FindAsync(id);
             if (conf != null)
             {
                 _context.Confederaciones.Remove(conf);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public List<Confederacion> Search(string texto)
+        public async Task<List<Confederacion>> Search(string texto)
         {
-            return _context.Confederaciones
+            return await _context.Confederaciones
                 .Where(p => p.Nombre.Contains(texto))
-                .ToList();
+                .ToListAsync();
         }
     }
 }

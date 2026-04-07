@@ -1,16 +1,48 @@
-﻿using NetPracticeCore.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using NetPracticeCore.Models;
 
 namespace NetPracticeCore.Data
 {
+    //<summary>
+    // Repositorio para gestionar operaciones CRUD y búsquedas relacionadas con la entidad Deporte.
+    //</summary>
     public interface IDeporteRepository
     {
-        List<Deporte> GetAll();
-        Deporte GetById(string id);
-        void Add(Deporte deporte);
-        void Update(Deporte deporte);
-        void Delete(string id);
+        //<summary>
+        // Obtiene todos los deportes.
+        //</summary>
+        // <returns>Lista de deportes</returns>
+        Task<List<Deporte>> GetAll();
 
-        List<Deporte> Search(string texto);
+        //<summary>
+        // Obtiene un deporte por su ID.
+        //</summary>
+        // <param name="id">ID del deporte</param>
+        Task<Deporte> GetById(string id);
+
+        //<summary>
+        // Agrega un nuevo deporte.
+        //</summary>
+        // <param name="deporte">Objeto deporte a agregar</param>
+        Task Add(Deporte deporte);
+
+        //<summary>
+        // Actualiza un deporte existente.
+        //</summary>
+        // <param name="deporte">Objeto deporte con los datos actualizados</param>
+        Task Update(Deporte deporte);
+
+        //<summary>
+        // Elimina un deporte por su ID.
+        //</summary>
+        // <param name="id">ID del deporte a eliminar</param>
+        Task Delete(string id);
+
+        //<summary>
+        // Busca deportes por su nombre.
+        // </summary>
+        // <param name="texto">Texto a buscar en el nombre del deporte</param>
+        Task<List<Deporte>> Search(string texto);
     }
 
     public class DeporteRepository : IDeporteRepository
@@ -22,43 +54,46 @@ namespace NetPracticeCore.Data
             _context = context;
         }
 
-        public List<Deporte> GetAll()
+        public async Task<List<Deporte>> GetAll()
         {
-            return _context.Deportes.ToList();
+            return await _context.Deportes
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public Deporte GetById(string id)
+        public async Task<Deporte> GetById(string id)
         {
-            return _context.Deportes.Find(id);
+            return await _context.Deportes.FindAsync(id);
         }
 
-        public void Add(Deporte deporte)
+        public async Task Add(Deporte deporte)
         {
-            _context.Deportes.Add(deporte);
-            _context.SaveChanges();
+            await _context.Deportes.AddAsync(deporte);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Deporte deporte)
+        public async Task Update(Deporte deporte)
         {
             _context.Deportes.Update(deporte);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
-            var deporte = _context.Deportes.Find(id);
+            var deporte = await _context.Deportes.FindAsync(id);
             if (deporte != null)
             {
                 _context.Deportes.Remove(deporte);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public List<Deporte> Search(string texto)
+        public async Task<List<Deporte>> Search(string texto)
         {
-            return _context.Deportes
+            return await _context.Deportes
                 .Where(p => p.Nombre.Contains(texto))
-                .ToList();
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

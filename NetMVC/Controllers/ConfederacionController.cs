@@ -13,25 +13,28 @@ namespace NetPracticeMVC.Controllers
             _confRepo = confRepo;
         }
 
-        public IActionResult Manage() => View(_confRepo.GetAll()); 
+        public async Task<IActionResult> Manage()
+        {
+            var confs = await _confRepo.GetAll();
+            return View(confs);
+        }
 
         public IActionResult Create() => View();
 
         [HttpPost]
-        public IActionResult Create(Confederacion c)
+        public async Task<IActionResult> Create(Confederacion c)
         {
             if (ModelState.IsValid)
             {
-                _confRepo.Add(c);
-
+                await _confRepo.Add(c);
                 return RedirectToAction("Manage");
             }
             return View(c);
         }
 
-        public IActionResult Edit(string Id)
+        public async Task<IActionResult> Edit(string Id)
         {
-            var existente = _confRepo.GetById(Id); 
+            var existente = await _confRepo.GetById(Id);
 
             if (existente == null)
                 return NotFound();
@@ -40,30 +43,28 @@ namespace NetPracticeMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Confederacion conf)
+        public async Task<IActionResult> Edit(Confederacion conf)
         {
             if (ModelState.IsValid)
             {
-                _confRepo.Update(conf);
-
+                await _confRepo.Update(conf);
                 return RedirectToAction("Manage");
             }
 
             return View(conf);
         }
 
-        public IActionResult Delete(string Id)
+        public async Task<IActionResult> Delete(string Id)
         {
-            _confRepo.Delete(Id);
-
+            await _confRepo.Delete(Id);
             return RedirectToAction("Manage");
         }
 
-
         [HttpGet]
-        public IActionResult Find(string search)
+        public async Task<IActionResult> Find(string search)
         {
-            var confs = _confRepo.Search(search);
+            var confs = await _confRepo.Search(search);
+
             if (confs == null || !confs.Any())
             {
                 ViewBag.Message = "No se encontraron confederaciones que coincidan con la búsqueda.";

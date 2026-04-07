@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NetPracticeCore.Data;
 using NetPracticeCore.Models;
 
@@ -14,24 +13,29 @@ namespace NetPracticeMVC.Controllers
             _depRepo = depRepo;
         }
 
-        public IActionResult Manage() => View(_depRepo.GetAll());
+        public async Task<IActionResult> Manage()
+        {
+            var deportes = await _depRepo.GetAll();
+            return View(deportes);
+        }
 
         public IActionResult Create() => View();
 
         [HttpPost]
-        public IActionResult Create(Deporte d)
+        public async Task<IActionResult> Create(Deporte d)
         {
             if (ModelState.IsValid)
             {
-                _depRepo.Add(d);
+                await _depRepo.Add(d);
                 return RedirectToAction("Manage");
             }
             return View(d);
         }
 
-        public IActionResult Find(string search)
+        public async Task<IActionResult> Find(string search)
         {
-            var deportes = _depRepo.Search(search);
+            var deportes = await _depRepo.Search(search);
+
             if (deportes == null || !deportes.Any())
             {
                 ViewBag.Message = "No se encontraron deportes que coincidan con la búsqueda.";
@@ -41,10 +45,9 @@ namespace NetPracticeMVC.Controllers
             return View("Manage", deportes);
         }
 
-
-        public IActionResult Edit(string Id)
+        public async Task<IActionResult> Edit(string Id)
         {
-            var existente = _depRepo.GetById(Id);
+            var existente = await _depRepo.GetById(Id);
 
             if (existente == null)
                 return NotFound();
@@ -53,22 +56,20 @@ namespace NetPracticeMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Deporte depo)
+        public async Task<IActionResult> Edit(Deporte depo)
         {
             if (ModelState.IsValid)
             {
-                _depRepo.Update(depo);
-
+                await _depRepo.Update(depo);
                 return RedirectToAction("Manage");
             }
 
             return View(depo);
         }
 
-        public IActionResult Delete(string Id)
+        public async Task<IActionResult> Delete(string Id)
         {
-            _depRepo.Delete(Id);
-
+            await _depRepo.Delete(Id);
             return RedirectToAction("Manage");
         }
     }

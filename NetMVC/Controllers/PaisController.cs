@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NetPracticeCore.Data;
 using NetPracticeCore.Models;
 
@@ -21,15 +20,15 @@ namespace NetPracticeMVC.Controllers
             _depRepo = depRepo;
         }
 
-        public IActionResult Manage()
+        public async Task<IActionResult> Manage()
         {
-            //return View(DataStore.Paises);
-            return View(_paisRepo.GetAll());
+            var paises = await _paisRepo.GetAll();
+            return View(paises);
         }
 
-        public IActionResult Find(string search)
+        public async Task<IActionResult> Find(string search)
         {
-            var paises = _paisRepo.Search(search);
+            var paises = await _paisRepo.Search(search);
 
             if (paises == null || !paises.Any())
             {
@@ -40,60 +39,65 @@ namespace NetPracticeMVC.Controllers
             return View("Manage", paises);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Confederaciones = _confRepo.GetAll();
-            ViewBag.Deportes = _depRepo.GetAll();
+            ViewBag.Confederaciones = await _confRepo.GetAll();
+            ViewBag.Deportes = await _depRepo.GetAll();
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Pais model)
+        public async Task<IActionResult> Create(Pais model)
         {
-            _paisRepo.Add(model);
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Confederaciones = await _confRepo.GetAll();
+                ViewBag.Deportes = await _depRepo.GetAll();
+                return View(model);
+            }
 
+            await _paisRepo.Add(model);
             return RedirectToAction("Manage");
         }
 
-        public IActionResult Edit(string Id)
+        public async Task<IActionResult> Edit(string Id)
         {
-            var existente = _paisRepo.GetById(Id);
+            var existente = await _paisRepo.GetById(Id);
 
             if (existente == null)
                 return NotFound();
 
-            ViewBag.Confederaciones = _confRepo.GetAll();
-            ViewBag.Deportes = _depRepo.GetAll();
+            ViewBag.Confederaciones = await _confRepo.GetAll();
+            ViewBag.Deportes = await _depRepo.GetAll();
 
             return View(existente);
         }
+
         [HttpPost]
-        public IActionResult Edit(string id,Pais pais)
+        public async Task<IActionResult> Edit(string id, Pais pais)
         {
-            var existente = _paisRepo.GetById(id);
+            var existente = await _paisRepo.GetById(id);
 
             if (existente == null)
                 return NotFound();
 
             existente.Nombre = pais.Nombre;
             existente.FechaFundacion = pais.FechaFundacion;
-
             existente.ConfederacionId = pais.ConfederacionId;
             existente.DeporteId = pais.DeporteId;
 
-            existente.Confederacion = _confRepo.GetById(pais.ConfederacionId);
-            existente.Deporte = _depRepo.GetById(pais.DeporteId);
+            existente.Confederacion = await _confRepo.GetById(pais.ConfederacionId);
+            existente.Deporte = await _depRepo.GetById(pais.DeporteId);
 
-            _paisRepo.Update(existente);
+            await _paisRepo.Update(existente);
 
             return RedirectToAction("Manage");
         }
 
-        public IActionResult Delete(string Id)
+        public async Task<IActionResult> Delete(string Id)
         {
-            _paisRepo.Delete(Id);
-
+            await _paisRepo.Delete(Id);
             return RedirectToAction("Manage");
         }
     }

@@ -32,7 +32,7 @@ Incluye funcionalidades CRUD completas, búsquedas y persistencia de datos utili
 
 El proyecto sigue el patrón MVC:
 
-### Modelo (Model)
+### Modelo (Model en DLL PracticeCore)
 
 * Entidades: País, Confederación, Deporte
 * Lógica de negocio y validaciones
@@ -49,19 +49,28 @@ El proyecto sigue el patrón MVC:
 * Conexión entre vista y modelo
 
 ---
+## Ejercicio 3 Branch
+Ejercicio 3: ASP.NET Core Web API
+Objetivo: Tener un primer acercamiento a la utilización de servicios web en la plataforma .NET, en este caso mediante la utilización de ASP.NET Core Web API .
+En este ejercicio se debe agregar una nueva capa de servicios REST al prototipo del ejercicio 1. Esta capa de servicios debe proveer las mismas funcionalidades de CRUD y búsqueda sobre las entidades del Ejercicio 1.
+El resultado del ejercicio debe contemplar el correcto manejo de los códigos de estado de respuesta HTTP , así como también de los métodos HTTP .
+Se sugiere como buena práctica documentar la Web API con Swagger .
 
-## ⚙️ Funcionalidades
-
-�?CRUD completo para todas las entidades
-�?Búsqueda por texto
-�?Validaciones de negocio
-�?Paginación de datos
-�?Persistencia en base de datos
-�?API REST (Ejercicio 3)
 
 ---
 
-## 🗄�?Base de Datos
+## ⚙️ Funcionalidades
+
+✅CRUD completo para todas las entidades
+✅Búsqueda por texto
+✅Validaciones de negocio
+✅ Paginación de datos
+✅Persistencia en base de datos
+✅ API REST 
+
+---
+
+## 🗄Base de Datos
 
 * Motor: SQL Server
 * ORM: Entity Framework Core
@@ -79,29 +88,15 @@ Se implementa una API con:
 * Documentación con Swagger
 
 ---
-
-## 💻 Frontend (Ejercicio 4)
-
-* Framework JS (React / Vue / Angular)
-* Diseño responsive con Bootstrap o similar
-* Búsqueda full-text
-
----
-
-## 📱 Mobile (Ejercicio 5)
-
-Aplicación en .NET MAUI que:
-
-* Consume la API REST
-* Permite búsqueda
-* Muestra resultados en grilla
+## Separacion de Logica de Negocio
+* DLL Libreria de clases para modelos, DbContext,etc
 
 ---
 
 ## 🚀 Cómo ejecutar
 
 1. Clonar el repositorio
-2. Configurar conexión a SQL Server en `appsettings.json` de MVC
+2. Configurar conexión a SQL Server en `appsettings.json` de MVC y WebApi
 
 Ejecutar migraciones:
 ```
@@ -115,7 +110,7 @@ Ejecutar la aplicación:
 
 ---
 
-## 👨‍�?Autor
+## 👨‍ ?Autor
 
 Ezequiel Medina
 Desarrollador .NET

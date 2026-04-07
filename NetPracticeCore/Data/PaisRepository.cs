@@ -4,39 +4,45 @@ using NetPracticeCore.Models;
 namespace NetPracticeCore.Data
 {
     //<summary>
-    // Interfaz para el repositorio de países, define los métodos para realizar operaciones CRUD y búsquedas.
+    // Repositorio para gestionar operaciones CRUD y búsquedas relacionadas con la entidad País.
     //</summary>
     public interface IPaisRepository
     {
         //<summary>
-        // Obtiene una lista de todos los países, incluyendo sus confederaciones y deportes relacionados.
+        // Obtiene todos los países, incluyendo sus deportes y confederaciones relacionadas.
         //</summary>
-        List<Pais> GetAll();
+        // <returns>Lista de países con sus relaciones</returns>
+        Task<List<Pais>> GetAll();
 
         //<summary>
-        // Obtiene un país por su ID, incluyendo su confederación y deporte relacionados.
+        // Obtiene un país por su ID, incluyendo sus deportes y confederaciones relacionadas.
         //</summary>
-        Pais GetById(string id);
+        // <param name="id">ID del país</param>
+        Task<Pais> GetById(string id);
 
         //<summary>
         // Agrega un nuevo país a la base de datos.
         //</summary>
-        void Add(Pais pais);
+        // <param name="pais">Objeto país a agregar</param>
+        Task Add(Pais pais);
 
         //<summary>
         // Actualiza un país existente en la base de datos.
         //</summary>
-        void Update(Pais pais);
+        // <param name="pais">Objeto país con los datos actualizados</param>
+        Task Update(Pais pais);
 
         //<summary>
         // Elimina un país de la base de datos por su ID.
         //</summary>
-        void Delete(string id);
+        // <param name="id">ID del país a eliminar</param>
+        Task Delete(string id);
 
         //<summary>
-        // Busca países cuyo nombre contenga el texto especificado, devolviendo una lista de resultados.
-        //</summary>
-        List<Pais> Search(string texto);
+        // Busca países por su nombre, incluyendo sus deportes y confederaciones relacionadas.
+        // </summary>
+        // <param name="texto">Texto a buscar en el nombre del país</param>
+        Task<List<Pais>> Search(string texto);
     }
 
     public class PaisRepository : IPaisRepository
@@ -48,49 +54,53 @@ namespace NetPracticeCore.Data
             _context = context;
         }
 
-        public List<Pais> GetAll()
+        public async Task<List<Pais>> GetAll()
         {
-            return _context.Paises
+            return await _context.Paises
                 .Include(p => p.Confederacion)
                 .Include(p => p.Deporte)
-                .ToList();
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public Pais GetById(string id)
+        public async Task<Pais> GetById(string id)
         {
-            return _context.Paises
+            return await _context.Paises
                 .Include(p => p.Confederacion)
                 .Include(p => p.Deporte)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void Add(Pais pais)
+        public async Task Add(Pais pais)
         {
-            _context.Paises.Add(pais);
-            _context.SaveChanges();
+            await _context.Paises.AddAsync(pais);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Pais pais)
+        public async Task Update(Pais pais)
         {
             _context.Paises.Update(pais);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
-            var pais = _context.Paises.Find(id);
+            var pais = await _context.Paises.FindAsync(id);
             if (pais != null)
             {
                 _context.Paises.Remove(pais);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public List<Pais> Search(string texto)
+        public async Task<List<Pais>> Search(string texto)
         {
-            return _context.Paises
-                .Where(p => p.Nombre.Contains(texto))
-                .ToList();
+            return await _context.Paises
+                .Include(p => p.Confederacion)
+                .Include(p => p.Deporte)
+                .Where(p => p.Nombre.Contains(texto ?? ""))
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }
