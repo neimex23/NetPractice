@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NetPracticeCore.Data;
 using NetPracticeCore.Models;
+using NetPracticeCore.Models.DTOs;
 
 namespace NetPracticeApi.Controllers
 {
@@ -58,14 +59,19 @@ namespace NetPracticeApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Confederacion>> Create([FromBody] Confederacion conf)
+        public async Task<ActionResult<Confederacion>> Create([FromBody] DtoConfederacion conf)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _confRepo.Add(conf);
+            var nuevaConf = new Confederacion
+            {
+                Nombre = conf.Nombre
+            };
 
-            return CreatedAtAction(nameof(GetById), new { id = conf.Id }, conf);
+            await _confRepo.Add(nuevaConf);
+
+            return CreatedAtAction(nameof(GetById), new { id = nuevaConf.Id }, nuevaConf);
         }
 
         /// <summary>

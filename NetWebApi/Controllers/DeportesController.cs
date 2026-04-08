@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NetPracticeCore.Data;
 using NetPracticeCore.Models;
+using NetPracticeCore.Models.DTOs;
 
 namespace NetPracticeApi.Controllers
 {
@@ -58,14 +59,19 @@ namespace NetPracticeApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Deporte>> Create([FromBody] Deporte deporte)
+        public async Task<ActionResult<Deporte>> Create([FromBody] DtoDeportes deporte)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _depRepo.Add(deporte);
+            var nuevoDeporte = new Deporte
+            {
+                Nombre = deporte.Nombre
+            };
 
-            return CreatedAtAction(nameof(GetById), new { id = deporte.Id }, deporte);
+            await _depRepo.Add(nuevoDeporte);
+
+            return CreatedAtAction(nameof(GetById), new { id = nuevoDeporte.Id }, nuevoDeporte);
         }
 
         /// <summary>
