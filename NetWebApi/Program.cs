@@ -16,6 +16,17 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddNetPracticeCore(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173") //React URL
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,6 +47,9 @@ app.Use(async (context, next) =>
 });
 app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NetPracticeAPI"));
+
+app.UseCors("AllowFrontend");
+app.UseAuthorization();
 
 app.UseHttpsRedirection();
 

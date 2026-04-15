@@ -49,12 +49,12 @@ El proyecto sigue el patrón MVC:
 * Conexión entre vista y modelo
 
 ---
-## Ejercicio 3 Branch
-Ejercicio 3: ASP.NET Core Web API
-Objetivo: Tener un primer acercamiento a la utilización de servicios web en la plataforma .NET, en este caso mediante la utilización de ASP.NET Core Web API .
-En este ejercicio se debe agregar una nueva capa de servicios REST al prototipo del ejercicio 1. Esta capa de servicios debe proveer las mismas funcionalidades de CRUD y búsqueda sobre las entidades del Ejercicio 1.
-El resultado del ejercicio debe contemplar el correcto manejo de los códigos de estado de respuesta HTTP , así como también de los métodos HTTP .
-Se sugiere como buena práctica documentar la Web API con Swagger .
+## Ejercicio 4 Branch
+Ejercicio 4: Frameworks JS 
+Objetivo: Trabajar con otras opciones existentes al momento de desarrollar interfaces de usuario, por fuera del ecosistema .NET.
+Se quiere tener la posibilidad de realizar búsquedas full text sobre el atributo de texto de la entidad Categoría (probablemente la descripción), y poder visualizarla de manera correcta independientemente del dispositivo y resolución utilizado.
+Para esto se optó por la utilización de un framework JS (Vue, Angular, React, etc.) de manera conjunta con un framework de diseño responsive (Bootstrap, Material, etc.).
+r .
 
 
 ---
@@ -91,6 +91,10 @@ Se implementa una API con:
 ## Separacion de Logica de Negocio
 * DLL Libreria de clases para modelos, DbContext,etc
 
+## FrontEnd
+- Vista de usuario realizada con ReactJS
+- CSS Tailwinds
+
 ---
 
 ## 🚀 Cómo ejecutar
@@ -106,11 +110,12 @@ dotnet ef migrations add InitialCreate --project .\NetPracticeCore\NetPracticeCo
 dotnet ef database update
 ```
 
-Ejecutar la aplicación:
+Ejecutar la aplicación de webapi
+Ejecutar front con ```npm run dev```
 
 ---
 
-## 👨‍ ?Autor
+## 👨‍ Autor
 
 Ezequiel Medina
 Desarrollador .NET

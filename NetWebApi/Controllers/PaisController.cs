@@ -89,15 +89,12 @@ namespace NetPracticeApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(string id, [FromBody] Pais pais)
+        public async Task<IActionResult> Update([FromBody] Pais pais)
         {
-            if (id != pais.Id)
-                return BadRequest("El ID no coincide.");
+            var existente = await _paisRepo.GetById(pais.Id);
 
-            var existente = await _paisRepo.GetById(id);
-
-            if (existente == null)
-                return NotFound();
+           // if (existente == null)
+                //return NotFound();
 
             // Actualizamos solo campos necesarios
             existente.Nombre = pais.Nombre;
