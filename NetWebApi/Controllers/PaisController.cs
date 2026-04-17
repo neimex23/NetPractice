@@ -14,10 +14,14 @@ namespace NetPracticeApi.Controllers
     public class PaisController : ControllerBase
     {
         private readonly IPaisRepository _paisRepo;
+        private readonly IConfederacionRepository _confRepo;
+        private readonly IDeporteRepository _deporteRepo;
 
-        public PaisController(IPaisRepository paisRepo)
+        public PaisController(IPaisRepository paisRepo, IConfederacionRepository confRepo, IDeporteRepository deporteRepo)
         {
             _paisRepo = paisRepo;
+            _confRepo = confRepo;
+            _deporteRepo = deporteRepo;
         }
 
         /// <summary>
@@ -66,6 +70,7 @@ namespace NetPracticeApi.Controllers
 
             var nuevoPais = new Pais
             {
+                Id = Guid.NewGuid().ToString(),
                 Nombre = pais.Nombre,
                 FechaFundacion = pais.FechaFundacion,
                 DeporteId = pais.DeporteId,
@@ -93,14 +98,16 @@ namespace NetPracticeApi.Controllers
         {
             var existente = await _paisRepo.GetById(pais.Id);
 
-           // if (existente == null)
-                //return NotFound();
+            if (existente == null)
+                return NotFound();
 
             // Actualizamos solo campos necesarios
             existente.Nombre = pais.Nombre;
             existente.FechaFundacion = pais.FechaFundacion;
             existente.ConfederacionId = pais.ConfederacionId;
             existente.DeporteId = pais.DeporteId;
+            existente.Confederacion = _confRepo.GetById(pais.ConfederacionId).Result;
+            existente.Deporte = _deporteRepo.GetById(pais.DeporteId).Result;
 
             await _paisRepo.Update(existente);
 

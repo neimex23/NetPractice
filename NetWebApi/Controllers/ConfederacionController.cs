@@ -66,6 +66,7 @@ namespace NetPracticeApi.Controllers
 
             var nuevaConf = new Confederacion
             {
+                Id = Guid.NewGuid().ToString(),
                 Nombre = conf.Nombre
             };
 

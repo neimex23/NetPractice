@@ -66,6 +66,7 @@ namespace NetPracticeApi.Controllers
 
             var nuevoDeporte = new Deporte
             {
+                Id = Guid.NewGuid().ToString(),
                 Nombre = deporte.Nombre
             };
 
