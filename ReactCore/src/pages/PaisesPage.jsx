@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { paisApi, confederacionApi, deporteApi } from '../api';
 import DataTable from '../components/DataTable';
 import Modal from '../components/Modal';
-import Field, { Input, Select } from '../components/Field';
 import PageHeader from '../components/PageHeader';
 
 const EMPTY_FORM = {
+  id: null,
   nombre: '',
   fechaFundacion: '',
   confederacionId: '',
@@ -13,15 +13,15 @@ const EMPTY_FORM = {
 };
 
 export default function PaisesPage({ showToast }) {
-  const [data, setData]               = useState([]);
-  const [confederaciones, setConf]    = useState([]);
-  const [deportes, setDep]            = useState([]);
-  const [loading, setLoading]         = useState(true);
-  const [modal, setModal]             = useState(null);
-  const [editing, setEditing]         = useState(null);
-  const [form, setForm]               = useState(EMPTY_FORM);
+  const [paises, setPaises]               = useState([]);
+  const [confederaciones, setConfs]       = useState([]);
+  const [deportes, setDeportes]           = useState([]);
+  const [loading, setLoading]             = useState(true);
+  const [mode, setMode]                   = useState(null); // 'create' | 'edit' | null
+  const [form, setForm]                   = useState(EMPTY_FORM);
 
-  const load = async () => {
+  // --------- data loading ---------
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const [p, c, d] = await Promise.all([
@@ -29,56 +29,87 @@ export default function PaisesPage({ showToast }) {
         confederacionApi.getAll(),
         deporteApi.getAll(),
       ]);
-      setData(p);
-      setConf(c);
-      setDep(d);
-    } catch {
-      showToast('Error al cargar datos', 'error');
+      setPaises(p ?? []);
+      setConfs(c ?? []);
+      setDeportes(d ?? []);
+    } catch (err) {
+      console.error(err);
+      showToast?.('Error al cargar datos', 'error');
     } finally {
       setLoading(false);
     }
+  }, [showToast]);
+
+  useEffect(() => { load(); }, [load]);
+
+  // --------- helpers ---------
+  const toDateInput = (iso) => (iso ? String(iso).split('T')[0] : '');
+
+  const updateField = (key) => (e) =>
+    setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  // --------- modal open/close ---------
+  const openCreate = () => {
+    setForm(EMPTY_FORM);
+    setMode('create');
   };
 
-  useEffect(() => { load(); }, []);
-
-  const openCreate = () => { setForm(EMPTY_FORM); setEditing(null); setModal('create'); };
-  const openEdit   = (row) => {
+  const openEdit = (row) => {
+    // log para confirmar qué llega
+    console.log('[openEdit] row:', row);
     setForm({
+      id: row.id ?? row.Id ?? null,
       nombre: row.nombre ?? '',
-      fechaFundacion: row.fechaFundacion ? row.fechaFundacion.split('T')[0] : '',
+      fechaFundacion: toDateInput(row.fechaFundacion),
       confederacionId: row.confederacionId ?? '',
       deporteId: row.deporteId ?? '',
     });
-    setEditing(row);
-    setModal('edit');
+    setMode('edit');
   };
-  const closeModal = () => { setModal(null); setEditing(null); };
 
-  const set = (key) => (e) => setForm(f => ({ ...f, [key]: e.target.value }));
+  const closeModal = () => {
+    setMode(null);
+    setForm(EMPTY_FORM);
+  };
 
+  // --------- submit ---------
   const handleSubmit = async () => {
-    if (!form.nombre.trim()) { showToast('El nombre es requerido', 'error'); return; }
+    if (!form.nombre.trim()) {
+      showToast?.('El nombre es requerido', 'error');
+      return;
+    }
+    if (!form.confederacionId) {
+      showToast?.('Seleccioná una confederación', 'error');
+      return;
+    }
+    if (!form.deporteId) {
+      showToast?.('Seleccioná un deporte', 'error');
+      return;
+    }
+
+    const payload = {
+      id: form.id,
+      nombre: form.nombre.trim(),
+      fechaFundacion: form.fechaFundacion || null,
+      confederacionId: form.confederacionId,
+      deporteId: form.deporteId,
+    };
+
+    console.log(`[handleSubmit] mode=${mode}`, payload);
+
     try {
-      const payload = {
-        id: editing?.id,
-        nombre: form.nombre,
-        fechaFundacion: form.fechaFundacion || null,
-        confederacionId: form.confederacionId || null,
-        deporteId: form.deporteId || null,
-      };
-      if (modal === 'edit') {
-        payload.Id = editing.id; 
-        console.log('Payload para actualización:', payload);
-        await paisApi.update(payload.id, payload);
-        showToast('País actualizado');
+      if (mode === 'edit') {
+        await paisApi.update(form.id, payload);
+        showToast?.('País actualizado');
       } else {
         await paisApi.create(payload);
-        showToast('País creado');
+        showToast?.('País creado');
       }
       closeModal();
-      load();
+      await load();
     } catch (ex) {
-      showToast(`Error al guardar ${ex.message}`, 'error');
+      console.error(ex);
+      showToast?.(`Error al guardar: ${ex.message}`, 'error');
     }
   };
 
@@ -86,54 +117,84 @@ export default function PaisesPage({ showToast }) {
     if (!window.confirm('¿Eliminar este país?')) return;
     try {
       await paisApi.delete(id);
-      showToast('País eliminado');
-      load();
-    } catch {
-      showToast('Error al eliminar', 'error');
+      showToast?.('País eliminado');
+      await load();
+    } catch (err) {
+      console.error(err);
+      showToast?.('Error al eliminar', 'error');
     }
   };
 
-  const confMap = Object.fromEntries(confederaciones.map(c => [c.id, c.nombre]));
-  const depMap  = Object.fromEntries(deportes.map(d => [d.id, d.nombre]));
+  // --------- lookup maps para la tabla ---------
+  const confMap = Object.fromEntries(confederaciones.map((c) => [c.id, c.nombre]));
+  const depMap  = Object.fromEntries(deportes.map((d) => [d.id, d.nombre]));
 
   const columns = [
-    { key: 'nombre', label: 'Nombre',
-      render: v => <span className="font-medium text-neutral-900">{v}</span> },
-    { key: 'fechaFundacion', label: 'Fundación',
-      render: v => v ? new Date(v).toLocaleDateString('es-UY', { year: 'numeric', month: 'short', day: 'numeric' }) : '—' },
-    { key: 'confederacionId', label: 'Confederación',
-      render: v => v
-        ? <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">{confMap[v] ?? v}</span>
-        : <span className="text-neutral-300">—</span> },
-    { key: 'deporteId', label: 'Deporte',
-      render: v => v
-        ? <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">{depMap[v] ?? v}</span>
-        : <span className="text-neutral-300">—</span> },
+    {
+      key: 'nombre',
+      label: 'Nombre',
+      render: (v) => <span className="font-medium text-neutral-900">{v}</span>,
+    },
+    {
+      key: 'fechaFundacion',
+      label: 'Fundación',
+      render: (v) =>
+        v
+          ? new Date(v).toLocaleDateString('es-UY', {
+              year: 'numeric', month: 'short', day: 'numeric',
+            })
+          : '—',
+    },
+    {
+      key: 'confederacionId',
+      label: 'Confederación',
+      render: (v) =>
+        v ? (
+          <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            {confMap[v] ?? v}
+          </span>
+        ) : (
+          <span className="text-neutral-300">—</span>
+        ),
+    },
+    {
+      key: 'deporteId',
+      label: 'Deporte',
+      render: (v) =>
+        v ? (
+          <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+            {depMap[v] ?? v}
+          </span>
+        ) : (
+          <span className="text-neutral-300">—</span>
+        ),
+    },
   ];
 
   const statCards = [
-    { label: 'Países',          value: data.length,               icon: '🌍', bg: 'bg-emerald-50' },
-    { label: 'Confederaciones', value: confederaciones.length,    icon: '🏛',  bg: 'bg-blue-50' },
-    { label: 'Deportes',        value: deportes.length,           icon: '⚽',  bg: 'bg-amber-50' },
+    { label: 'Países',          value: paises.length,          icon: '🌍', bg: 'bg-emerald-50' },
+    { label: 'Confederaciones', value: confederaciones.length, icon: '🏛',  bg: 'bg-blue-50' },
+    { label: 'Deportes',        value: deportes.length,        icon: '⚽',  bg: 'bg-amber-50' },
   ];
 
+  // --------- render ---------
   return (
     <div>
       <PageHeader
         title="Países"
-        subtitle={`${data.length} registros`}
+        subtitle={`${paises.length} registros`}
         action={
-          <button onClick={openCreate}
-            className="px-4 py-2 bg-emerald-700 text-white text-sm font-medium rounded-xl
-              hover:bg-emerald-800 transition-colors">
+          <button
+            onClick={openCreate}
+            className="px-4 py-2 bg-emerald-700 text-white text-sm font-medium rounded-xl hover:bg-emerald-800 transition-colors"
+          >
             + Nuevo país
           </button>
         }
       />
 
-      {/* Stat cards */}
       <div className="grid grid-cols-3 gap-4 mb-6">
-        {statCards.map(s => (
+        {statCards.map((s) => (
           <div key={s.label} className={`${s.bg} rounded-2xl p-4 flex items-center gap-4`}>
             <span className="text-2xl">{s.icon}</span>
             <div>
@@ -147,38 +208,72 @@ export default function PaisesPage({ showToast }) {
       {loading ? (
         <div className="text-sm text-neutral-400 py-8">Cargando...</div>
       ) : (
-        <DataTable columns={columns} data={data} onEdit={openEdit} onDelete={handleDelete} />
+        <DataTable
+          columns={columns}
+          data={paises}
+          onEdit={openEdit}
+          onDelete={handleDelete}
+        />
       )}
 
-      {modal && (
+      {mode && (
         <Modal
-          title={modal === 'edit' ? 'Editar país' : 'Nuevo país'}
+          title={mode === 'edit' ? 'Editar país' : 'Nuevo país'}
           onClose={closeModal}
           onSubmit={handleSubmit}
-          submitLabel={modal === 'edit' ? 'Guardar cambios' : 'Crear'}
+          submitLabel={mode === 'edit' ? 'Guardar cambios' : 'Crear'}
         >
-          <Field label="Nombre">
-            <Input value={form.nombre} onChange={set('nombre')} placeholder="Nombre del país" autoFocus />
-          </Field>
-          <Field label="Fecha de fundación">
-            <Input type="date" value={form.fechaFundacion} onChange={set('fechaFundacion')} />
-          </Field>
-          <Field label="Confederación">
-            <Select value={form.confederacionId} onChange={set('confederacionId')}>
-              <option value="">Seleccionar...</option>
-              {confederaciones.map(c => (
-                <option key={c.id} value={c.id}>{c.nombre}</option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Deporte">
-            <Select value={form.deporteId} onChange={set('deporteId')}>
-              <option value="">Seleccionar...</option>
-              {deportes.map(d => (
-                <option key={d.id} value={d.id}>{d.nombre}</option>
-              ))}
-            </Select>
-          </Field>
+          <div className="space-y-4">
+            <label className="block">
+              <span className="block text-sm font-medium text-neutral-700 mb-1">Nombre</span>
+              <input
+                type="text"
+                value={form.nombre}
+                onChange={updateField('nombre')}
+                placeholder="Nombre del país"
+                autoFocus
+                className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+              />
+            </label>
+
+            <label className="block">
+              <span className="block text-sm font-medium text-neutral-700 mb-1">Fecha de fundación</span>
+              <input
+                type="date"
+                value={form.fechaFundacion}
+                onChange={updateField('fechaFundacion')}
+                className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+              />
+            </label>
+
+            <label className="block">
+              <span className="block text-sm font-medium text-neutral-700 mb-1">Confederación</span>
+              <select
+                value={form.confederacionId}
+                onChange={updateField('confederacionId')}
+                className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+              >
+                <option value="">Seleccionar...</option>
+                {confederaciones.map((c) => (
+                  <option key={c.id} value={c.id}>{c.nombre}</option>
+                ))}
+              </select>
+            </label>
+
+            <label className="block">
+              <span className="block text-sm font-medium text-neutral-700 mb-1">Deporte</span>
+              <select
+                value={form.deporteId}
+                onChange={updateField('deporteId')}
+                className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+              >
+                <option value="">Seleccionar...</option>
+                {deportes.map((d) => (
+                  <option key={d.id} value={d.id}>{d.nombre}</option>
+                ))}
+              </select>
+            </label>
+          </div>
         </Modal>
       )}
     </div>
