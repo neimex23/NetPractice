@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Api+Mobile",
+    "Projects": [
+      {
+        "Path": "NetWebApi\\NetWebApi.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "NetMobile\\NetMobile.csproj",
+        "Action": "Start",
+        "DebugTarget": "Windows Machine"
+      }
+    ]
+  }
+]

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:NetMobile.Models"
+             x:Class="NetMobile.Pages.DeportesPage"
+             Title="Deportes">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Grid Grid.Row="0" Padding="20,20,20,8" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                <Label Text="Deportes" Style="{StaticResource PageTitle}"/>
+                <Label x:Name="SubtitleLabel" Text="0 registros" Style="{StaticResource PageSubtitle}"/>
+            </VerticalStackLayout>
+            <Button Grid.Column="1"
+                    Text="+ Nuevo"
+                    Style="{StaticResource PrimaryButton}"
+                    Clicked="OnNewClicked"/>
+        </Grid>
+
+        <RefreshView Grid.Row="1" x:Name="Refresher" Refreshing="OnRefresh"
+                     RefreshColor="{StaticResource Primary}">
+            <ScrollView>
+                <VerticalStackLayout Padding="20,8,20,20" Spacing="10">
+                    <ActivityIndicator x:Name="Loader" IsRunning="True" IsVisible="True"
+                                       Color="{StaticResource Primary}"/>
+
+                    <CollectionView x:Name="List" SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <Label Text="Sin deportes"
+                                   HorizontalOptions="Center"
+                                   TextColor="{StaticResource TextMuted}"
+                                   Padding="0,30"/>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Deporte">
+                                <Border Style="{StaticResource Card}">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                            <Label Text="{Binding Nombre}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding Id}"
+                                                   FontSize="11"
+                                                   TextColor="{StaticResource TextMuted}"/>
+                                        </VerticalStackLayout>
+                                        <HorizontalStackLayout Grid.Column="1" Spacing="4">
+                                            <Button Text="✎" WidthRequest="40" HeightRequest="40"
+                                                    Padding="0" CornerRadius="20"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="{StaticResource TextSecondary}"
+                                                    Clicked="OnEditClicked"
+                                                    CommandParameter="{Binding .}"/>
+                                            <Button Text="🗑" WidthRequest="40" HeightRequest="40"
+                                                    Padding="0" CornerRadius="20"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="{StaticResource Danger}"
+                                                    Clicked="OnDeleteClicked"
+                                                    CommandParameter="{Binding .}"/>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

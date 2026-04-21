@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:NetMobile.Models"
+             x:Class="NetMobile.Pages.PaisesPage"
+             Title="Países">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ============ HEADER ============ -->
+        <Grid Grid.Row="0"
+              Padding="20,20,20,8"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="12">
+            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                <Label Text="Países" Style="{StaticResource PageTitle}" />
+                <Label x:Name="SubtitleLabel"
+                       Text="0 registros"
+                       Style="{StaticResource PageSubtitle}" />
+            </VerticalStackLayout>
+
+            <Button Grid.Column="1"
+                    Text="+ Nuevo"
+                    Style="{StaticResource PrimaryButton}"
+                    Clicked="OnNewClicked" />
+        </Grid>
+
+        <!-- ============ CONTENIDO ============ -->
+        <RefreshView Grid.Row="1"
+                     x:Name="Refresher"
+                     Refreshing="OnRefresh"
+                     RefreshColor="{StaticResource Primary}">
+            <ScrollView>
+                <VerticalStackLayout Padding="20,8,20,20" Spacing="16">
+
+                    <!-- Stat cards -->
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                        <Border Grid.Column="0"
+                                Style="{StaticResource StatCard}"
+                                BackgroundColor="{StaticResource StatEmeraldBg}">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="🌍" FontSize="22"/>
+                                <Label Text="PAÍSES" Style="{StaticResource SectionLabel}"/>
+                                <Label x:Name="StatPaises" Text="0" Style="{StaticResource StatValue}"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Grid.Column="1"
+                                Style="{StaticResource StatCard}"
+                                BackgroundColor="{StaticResource StatBlueBg}">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="🏛" FontSize="22"/>
+                                <Label Text="CONFEDER." Style="{StaticResource SectionLabel}"/>
+                                <Label x:Name="StatConfs" Text="0" Style="{StaticResource StatValue}"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Grid.Column="2"
+                                Style="{StaticResource StatCard}"
+                                BackgroundColor="{StaticResource StatAmberBg}">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="⚽" FontSize="22"/>
+                                <Label Text="DEPORTES" Style="{StaticResource SectionLabel}"/>
+                                <Label x:Name="StatDeportes" Text="0" Style="{StaticResource StatValue}"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <!-- Loader -->
+                    <ActivityIndicator x:Name="Loader"
+                                       IsRunning="True"
+                                       IsVisible="True"
+                                       Color="{StaticResource Primary}" />
+
+                    <!-- Lista de países -->
+                    <CollectionView x:Name="PaisesList"
+                                    SelectionMode="None"
+                                    ItemSizingStrategy="MeasureAllItems">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.EmptyView>
+                            <Label Text="No hay países registrados"
+                                   HorizontalOptions="Center"
+                                   TextColor="{StaticResource TextMuted}"
+                                   Padding="0,30"/>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Pais">
+                                <Border Style="{StaticResource Card}">
+                                    <Grid ColumnDefinitions="*,Auto" RowSpacing="6">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                            <Label Text="{Binding Nombre}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"/>
+
+                                            <HorizontalStackLayout Spacing="6">
+                                                <Border BackgroundColor="{StaticResource BadgeBlueBg}"
+                                                        Padding="8,3"
+                                                        StrokeThickness="0">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="999"/>
+                                                    </Border.StrokeShape>
+                                                    <Label Text="{Binding ConfederacionNombre, StringFormat='Conf: {0}'}"
+                                                           FontSize="11"
+                                                           TextColor="{StaticResource BadgeBlueFg}"/>
+                                                </Border>
+
+                                                <Border BackgroundColor="{StaticResource BadgeAmberBg}"
+                                                        Padding="8,3"
+                                                        StrokeThickness="0">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="999"/>
+                                                    </Border.StrokeShape>
+                                                    <Label Text="{Binding DeporteNombre, StringFormat='Dep: {0}'}"
+                                                           FontSize="11"
+                                                           TextColor="{StaticResource BadgeAmberFg}"/>
+                                                </Border>
+                                            </HorizontalStackLayout>
+
+                                            <Label Text="{Binding FechaFundacionDisplay}"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource TextMuted}"/>
+                                        </VerticalStackLayout>
+
+                                        <HorizontalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Start">
+                                            <Button Text="✎"
+                                                    WidthRequest="40" HeightRequest="40"
+                                                    Padding="0"
+                                                    CornerRadius="20"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="{StaticResource TextSecondary}"
+                                                    FontSize="16"
+                                                    Clicked="OnEditClicked"
+                                                    CommandParameter="{Binding .}"/>
+                                            <Button Text="🗑"
+                                                    WidthRequest="40" HeightRequest="40"
+                                                    Padding="0"
+                                                    CornerRadius="20"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="{StaticResource Danger}"
+                                                    FontSize="14"
+                                                    Clicked="OnDeleteClicked"
+                                                    CommandParameter="{Binding .}"/>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

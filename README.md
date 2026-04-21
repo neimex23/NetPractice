@@ -49,12 +49,11 @@ El proyecto sigue el patrón MVC:
 * Conexión entre vista y modelo
 
 ---
-## Ejercicio 4 Branch
-Ejercicio 4: Frameworks JS 
-Objetivo: Trabajar con otras opciones existentes al momento de desarrollar interfaces de usuario, por fuera del ecosistema .NET.
-Se quiere tener la posibilidad de realizar búsquedas full text sobre el atributo de texto de la entidad Categoría (probablemente la descripción), y poder visualizarla de manera correcta independientemente del dispositivo y resolución utilizado.
-Para esto se optó por la utilización de un framework JS (Vue, Angular, React, etc.) de manera conjunta con un framework de diseño responsive (Bootstrap, Material, etc.).
-r .
+## Ejercicio 5 Branch
+Ejercicio 5: .NET MAUI	
+Objetivo: Desarrollo de aplicaciones móviles nativas en el ecosistema .NET utilizando .NET MAUI
+Se desea obtener detalles de la entidad en la que se está trabajando. Para esto, se desarrollará una aplicación móvil nativa utilizando .NET MAUI, la cual tendrá un campo de búsqueda (de tipo texto), desde donde se llamará al método de búsqueda de la web API REST desarrollada anteriormente, y se mostrarán los resultados en forma de grilla.
+
 
 
 ---
@@ -67,6 +66,8 @@ r .
 ✅ Paginación de datos
 ✅Persistencia en base de datos
 ✅ API REST 
+✅ Front ReactJS
+✅ Aplicacion Mobile con NET MAUI
 
 ---
 
@@ -95,6 +96,9 @@ Se implementa una API con:
 - Vista de usuario realizada con ReactJS
 - CSS Tailwinds
 
+## Mobile
+- Aplicacion para entorno Mobile
+
 ---
 
 ## 🚀 Cómo ejecutar
@@ -111,7 +115,7 @@ dotnet ef database update
 ```
 
 Ejecutar la aplicación de webapi
-Ejecutar front con ```npm run dev```
+Ejecutar aplicacion mobile
 
 ---
 

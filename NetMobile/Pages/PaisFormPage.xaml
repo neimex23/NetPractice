@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NetMobile.Pages.PaisFormPage"
+             Title="País">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+
+            <Label x:Name="TitleLabel" Text="Nuevo país" Style="{StaticResource PageTitle}" />
+            <Label Text="Completá los datos del país"
+                   Style="{StaticResource PageSubtitle}"/>
+
+            <!-- Nombre -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Nombre" Style="{StaticResource FormLabel}"/>
+                <Border Style="{StaticResource InputBorder}">
+                    <Entry x:Name="NombreEntry" Placeholder="Nombre del país" />
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Fecha -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Fecha de fundación" Style="{StaticResource FormLabel}"/>
+                <Border Style="{StaticResource InputBorder}">
+                    <DatePicker x:Name="FechaPicker"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Confederación -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Confederación" Style="{StaticResource FormLabel}"/>
+                <Border Style="{StaticResource InputBorder}" HeightRequest="44">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="ConfLabel"
+                               Grid.Column="0"
+                               Text="Seleccionar..."
+                               FontSize="15"
+                               TextColor="{StaticResource TextMuted}"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="▾"
+                               FontSize="18"
+                               TextColor="{StaticResource TextMuted}"
+                               VerticalOptions="Center"/>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnConfTapped"/>
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Deporte -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Deporte" Style="{StaticResource FormLabel}"/>
+                <Border Style="{StaticResource InputBorder}" HeightRequest="44">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="DepLabel"
+                               Grid.Column="0"
+                               Text="Seleccionar..."
+                               FontSize="15"
+                               TextColor="{StaticResource TextMuted}"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="▾"
+                               FontSize="18"
+                               TextColor="{StaticResource TextMuted}"
+                               VerticalOptions="Center"/>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDepTapped"/>
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,12,0,0">
+                <Button Grid.Column="0"
+                        Text="Cancelar"
+                        Style="{StaticResource SecondaryButton}"
+                        Clicked="OnCancel"/>
+                <Button Grid.Column="1"
+                        x:Name="SaveButton"
+                        Text="Guardar"
+                        Style="{StaticResource PrimaryButton}"
+                        Clicked="OnSave"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

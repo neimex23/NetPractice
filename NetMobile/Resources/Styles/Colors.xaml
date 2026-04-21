@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- =====  Paleta NetPractice (mismos tokens que el front React/Tailwind)  ===== -->
+
+    <!-- Acento principal: emerald-700 -->
+    <Color x:Key="Primary">#047857</Color>
+    <Color x:Key="PrimaryDark">#065F46</Color>       <!-- emerald-800 hover -->
+    <Color x:Key="PrimaryLight">#ECFDF5</Color>      <!-- emerald-50  -->
+
+    <!-- Fondo de app: stone-100 -->
+    <Color x:Key="AppBackground">#F5F5F4</Color>
+
+    <!-- Sidebar / superficies oscuras: neutral-900 / 800 -->
+    <Color x:Key="SidebarBg">#171717</Color>
+    <Color x:Key="SidebarHover">#262626</Color>
+    <Color x:Key="SidebarText">#A3A3A3</Color>       <!-- neutral-400 -->
+    <Color x:Key="SidebarSubtle">#525252</Color>     <!-- neutral-600 -->
+
+    <!-- Texto -->
+    <Color x:Key="TextPrimary">#171717</Color>       <!-- neutral-900 -->
+    <Color x:Key="TextSecondary">#525252</Color>     <!-- neutral-600 -->
+    <Color x:Key="TextMuted">#A3A3A3</Color>         <!-- neutral-400 -->
+
+    <!-- Bordes / cards -->
+    <Color x:Key="CardBg">#FFFFFF</Color>
+    <Color x:Key="BorderSoft">#E5E5E5</Color>        <!-- neutral-200 -->
+    <Color x:Key="BorderInput">#D4D4D4</Color>       <!-- neutral-300 -->
+
+    <!-- Badges (mismos que el front) -->
+    <Color x:Key="BadgeBlueBg">#DBEAFE</Color>       <!-- blue-100   -->
+    <Color x:Key="BadgeBlueFg">#1E40AF</Color>       <!-- blue-800   -->
+    <Color x:Key="BadgeAmberBg">#FEF3C7</Color>      <!-- amber-100  -->
+    <Color x:Key="BadgeAmberFg">#92400E</Color>      <!-- amber-800  -->
+    <Color x:Key="BadgeEmeraldBg">#D1FAE5</Color>    <!-- emerald-100 -->
+    <Color x:Key="BadgeEmeraldFg">#065F46</Color>
+
+    <!-- Stat cards (mismos bg pastel) -->
+    <Color x:Key="StatEmeraldBg">#ECFDF5</Color>
+    <Color x:Key="StatBlueBg">#EFF6FF</Color>
+    <Color x:Key="StatAmberBg">#FFFBEB</Color>
+
+    <!-- Estado -->
+    <Color x:Key="Danger">#DC2626</Color>            <!-- red-600 -->
+    <Color x:Key="DangerBg">#FEE2E2</Color>          <!-- red-100 -->
+    <Color x:Key="Success">#047857</Color>
+
+    <!-- Blancos / negros planos -->
+    <Color x:Key="White">White</Color>
+    <Color x:Key="Black">Black</Color>
+
+    <!-- Escala Gray (compat con template MAUI) -->
+    <Color x:Key="Gray100">#E1E1E1</Color>
+    <Color x:Key="Gray200">#C8C8C8</Color>
+    <Color x:Key="Gray300">#ACACAC</Color>
+    <Color x:Key="Gray400">#919191</Color>
+    <Color x:Key="Gray500">#6E6E6E</Color>
+    <Color x:Key="Gray600">#404040</Color>
+    <Color x:Key="Gray900">#212121</Color>
+    <Color x:Key="Gray950">#141414</Color>
+
+    <SolidColorBrush x:Key="PrimaryBrush"     Color="{StaticResource Primary}"/>
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDark}"/>
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="{StaticResource AppBackground}"/>
+    <SolidColorBrush x:Key="SidebarBgBrush"   Color="{StaticResource SidebarBg}"/>
+    <SolidColorBrush x:Key="CardBgBrush"      Color="{StaticResource CardBg}"/>
+    <SolidColorBrush x:Key="BorderSoftBrush"  Color="{StaticResource BorderSoft}"/>
+    <SolidColorBrush x:Key="BorderInputBrush" Color="{StaticResource BorderInput}"/>
+    <SolidColorBrush x:Key="WhiteBrush"       Color="{StaticResource White}"/>
+    <SolidColorBrush x:Key="BlackBrush"       Color="{StaticResource Black}"/>
+
+    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
+    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
+    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}"/>
+    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}"/>
+    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}"/>
+    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
+    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
+    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+</ResourceDictionary>

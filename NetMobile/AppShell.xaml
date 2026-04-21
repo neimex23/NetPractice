@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="NetMobile.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:NetMobile.Pages"
+    Title="NetPractice"
+    FlyoutBehavior="Flyout"
+    FlyoutBackgroundColor="{StaticResource SidebarBg}">
+
+    <!-- Header del flyout: logo + subtítulo -->
+    <Shell.FlyoutHeader>
+        <Grid Padding="20,28,20,20" BackgroundColor="{StaticResource SidebarBg}">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="NetPractice"
+                       TextColor="White"
+                       FontSize="22"
+                       FontAttributes="Bold"/>
+                <Label Text="SPORTS MANAGER"
+                       TextColor="{StaticResource SidebarSubtle}"
+                       FontSize="10"
+                       CharacterSpacing="2"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <Grid Padding="20,16" BackgroundColor="{StaticResource SidebarBg}">
+            <Label Text="API REST · ASP.NET Core"
+                   FontSize="11"
+                   TextColor="{StaticResource SidebarSubtle}" />
+        </Grid>
+    </Shell.FlyoutFooter>
+
+    <!-- Template simple: solo Title (emoji va incluido en el propio string) -->
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid HeightRequest="48" Padding="16,0">
+                <Label Text="{Binding Title}"
+                       FontSize="15"
+                       VerticalOptions="Center"
+                       TextColor="White"/>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="Transparent"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <!-- ===========  RUTAS PRINCIPALES  =========== -->
+    <FlyoutItem Title="🌍  Países">
+        <ShellContent Route="paises"
+                      ContentTemplate="{DataTemplate pages:PaisesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="🏛  Confederaciones">
+        <ShellContent Route="confederaciones"
+                      ContentTemplate="{DataTemplate pages:ConfederacionesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="⚽  Deportes">
+        <ShellContent Route="deportes"
+                      ContentTemplate="{DataTemplate pages:DeportesPage}" />
+    </FlyoutItem>
+
+</Shell>
